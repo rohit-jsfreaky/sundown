@@ -1,0 +1,101 @@
+# Sample OpenAPI description for Larkpay, a made-up payments API (not a real company).
+# Three v1 operations are marked deprecated, as Zalando's API guidelines ask: deprecated: true, a description that
+# says what to use instead, and the planned sunset date in x-sunset.
+openapi: 3.1.0
+info:
+  title: Larkpay API
+  version: "2026-12-01"
+  description: Payments, refunds and payouts for online shops.
+servers:
+  - url: https://api.larkpay.example
+paths:
+  /v1/charges:
+    post:
+      operationId: createCharge
+      summary: Create a charge
+      deprecated: true
+      x-sunset: "2027-03-31"
+      description: Deprecated. Use POST /v2/payments, which takes cards, bank debits and wallets.
+      tags: [Charges]
+      responses:
+        "200": { description: The charge. }
+  /v1/charges/{charge_id}:
+    get:
+      operationId: getCharge
+      summary: Retrieve a charge
+      deprecated: true
+      x-sunset: "2027-03-31"
+      description: Deprecated. Use GET /v2/payments/{payment_id}.
+      tags: [Charges]
+      parameters:
+        - { name: charge_id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: The charge. }
+  /v1/charges/{charge_id}/refund:
+    post:
+      operationId: refundCharge
+      summary: Refund a charge
+      deprecated: true
+      x-sunset: "2027-03-31"
+      description: Deprecated. Use POST /v2/refunds with the payment_id.
+      tags: [Charges]
+      parameters:
+        - { name: charge_id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: The refunded charge. }
+  /v2/payments:
+    get:
+      operationId: listPayments
+      summary: List payments
+      tags: [Payments]
+      responses:
+        "200": { description: A page of payments. }
+    post:
+      operationId: createPayment
+      summary: Create a payment
+      tags: [Payments]
+      responses:
+        "201": { description: The payment. }
+  /v2/payments/{payment_id}:
+    get:
+      operationId: getPayment
+      summary: Retrieve a payment
+      tags: [Payments]
+      parameters:
+        - { name: payment_id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: The payment. }
+  /v2/refunds:
+    post:
+      operationId: createRefund
+      summary: Create a refund
+      tags: [Refunds]
+      responses:
+        "201": { description: The refund. }
+  /v2/customers:
+    get:
+      operationId: listCustomers
+      summary: List customers
+      tags: [Customers]
+      responses:
+        "200": { description: A page of customers. }
+    post:
+      operationId: createCustomer
+      summary: Create a customer
+      tags: [Customers]
+      responses:
+        "201": { description: The customer. }
+  /v2/payouts:
+    get:
+      operationId: listPayouts
+      summary: List payouts
+      tags: [Payouts]
+      responses:
+        "200": { description: A page of payouts. }
+  /v2/webhooks:
+    post:
+      operationId: createWebhook
+      summary: Create a webhook endpoint
+      tags: [Webhooks]
+      responses:
+        "201": { description: The webhook endpoint. }

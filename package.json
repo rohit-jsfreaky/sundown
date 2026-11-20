@@ -1,0 +1,44 @@
+{
+  "name": "sundown",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "check": "hyper-elements check templates/",
+    "notices": "for t in email page card; do hyper-elements design new templates/$t.tsx -o notices/larkpay.$t.values.json --values notices/larkpay.json; done && hyper-elements render notices/ --out out",
+    "preview:email": "hyper-elements preview out/notices/larkpay.email.html"
+  },
+  "dependencies": {
+    "@hyper-elements/email-clients": "^0.5.0",
+    "@hyper-elements/lint": "^0.1.8",
+    "@hyper-elements/react": "^0.5.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "@untitledui/icons": "^0.0.23",
+    "next": "16.4.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "satori": "^0.33.5",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@hyper-elements/cli": "^0.3.0",
+    "@tailwindcss/turbopack": "4.3.3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "tailwindcss": "4.3.3",
+    "typescript": "^5"
+  },
+  "hyperElements": {
+    "templates": [
+      "templates/**"
+    ]
+  },
+  "description": "Sundown: API deprecation notices from your OpenAPI spec. Emails, migration guide, changelog card and Sunset headers, built with Hyper Elements.",
+  "license": "MIT"
+}

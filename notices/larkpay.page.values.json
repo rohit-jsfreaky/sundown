@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "template": {
+    "module": "../templates/page.tsx",
+    "id": "sundown.Page",
+    "version": "1.0.0",
+    "sha256": "87b8a8ef8ee5aeb0e6ddeb020d3df051fdc34aed2810620a2dfdc9ee5124799d"
+  },
+  "values": {
+    "apiName": "Larkpay API",
+    "team": "The Larkpay API team",
+    "accent": "#c2410c",
+    "stage": "announce",
+    "sendOn": "2026-12-01",
+    "deprecatedOn": "2026-12-01",
+    "sunsetOn": "2027-03-31",
+    "guideUrl": "https://docs.larkpay.example/migrate/charges-to-payments",
+    "contactEmail": "api@larkpay.example",
+    "reason": "Charges were built for card payments only. The Payments API handles cards, bank debits and wallets with one object, and it is where every new feature now ships.",
+    "endpoints": [
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "summary": "Create a charge",
+        "replacement": "POST /v2/payments"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge_id}",
+        "summary": "Retrieve a charge",
+        "replacement": "GET /v2/payments/{payment_id}"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges/{charge_id}/refund",
+        "summary": "Refund a charge",
+        "replacement": "POST /v2/refunds"
+      }
+    ],
+    "steps": [
+      "Create payments with POST /v2/payments. The amount and currency fields are unchanged.",
+      "Read the payment's status field instead of the charge's paid and refunded flags.",
+      "Move refunds to POST /v2/refunds with the payment_id.",
+      "Watch your logs for the Deprecation header: any response that has it is still on v1."
+    ],
+    "before": "curl https://api.larkpay.example/v1/charges \\\n  -u \"$LARKPAY_KEY:\" \\\n  -d amount=2500 -d currency=eur -d source=tok_visa",
+    "after": "curl https://api.larkpay.example/v2/payments \\\n  -u \"$LARKPAY_KEY:\" \\\n  -d amount=2500 -d currency=eur \\\n  -d \"payment_method[type]=card\" \\\n  -d \"payment_method[token]=tok_visa\""
+  }
+}
