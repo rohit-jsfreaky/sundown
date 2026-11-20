@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "check": "hyper-elements check templates/",
-    "notices": "for t in email page card; do hyper-elements design new templates/$t.tsx -o notices/larkpay.$t.values.json --values notices/larkpay.json; done && hyper-elements render notices/ --out out",
+    "notices": "for t in email page card; do hyper-elements design new templates/$t.tsx -o notices/larkpay.$t.values.json --values notices/larkpay.json; done && hyper-elements render notices/ --out renders",
     "preview:email": "hyper-elements preview out/notices/larkpay.email.html"
   },
   "dependencies": {
@@ -16,7 +16,9 @@
     "@hyper-elements/lint": "^0.1.8",
     "@hyper-elements/react": "^0.5.0",
     "@resvg/resvg-js": "^2.6.2",
+    "@resvg/resvg-wasm": "^2.6.2",
     "@untitledui/icons": "^0.0.23",
+    "buffer": "^6.0.3",
     "next": "16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0",

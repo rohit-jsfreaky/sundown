@@ -1,5 +1,6 @@
 "use client";
 
+import { renderLocal } from "@/lib/render-local";
 import NextLink from "next/link";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
@@ -102,7 +103,7 @@ export function Studio() {
     const timer = setTimeout(async () => {
       setRendering(true);
       try {
-        const res = await fetch("/api/render", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ output: tab, notice }) });
+        const res = await renderLocal({ method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ output: tab, notice }) });
         if (id !== seq.current) return;
         if (res.headers.get("Content-Type")?.startsWith("image/png")) {
           const blob = await res.blob();
@@ -144,7 +145,7 @@ export function Studio() {
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
   const exportOutput = async (output: "email" | "page" | "card", as?: "text") => {
-    const res = await fetch("/api/render", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ output, notice }) });
+    const res = await renderLocal({ method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ output, notice }) });
     if (!res.ok) return setTab(output);
     const slug = `${draft!.apiName}-${draft!.stage}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     if (output === "card") return save(`${slug}-card.png`, await res.blob(), "image/png");
