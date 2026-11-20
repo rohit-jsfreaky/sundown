@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 const nextConfig: NextConfig = {
   cacheComponents: true,
   devIndicators: false,
+  // The render route reads fonts/ at runtime: ship it with the serverless function.
+  outputFileTracingIncludes: { "/api/render": ["./fonts/**"] },
   partialPrefetching: true,
   // Hyper Elements' image engines: resvg is a native addon and satori reads a WebAssembly file (see its render-image docs).
   serverExternalPackages: ["@resvg/resvg-js", "satori"],
