@@ -6,6 +6,8 @@ retired), a migration guide page, a changelog card, and the `Deprecation` / `Sun
 
 Built with [Hyper Elements](https://github.com/hyper-elements/hyper-elements) for the Hyper Elements Template Challenge.
 
+**Live:** https://sundown.rohitkashyapmrt.workers.dev
+
 ![The Sundown studio: deprecated endpoints from the spec, the notice, the rendered email](media/studio.png)
 
 ## Why this exists
@@ -51,7 +53,7 @@ The three outputs are **Hyper Elements templates** (`template()` from `@hyper-el
   like an email. A notice has 1 to 12 endpoints. Methods are a fixed choice. If a value breaks a rule, the render
   stops and says which field and why. In the studio, those messages appear in the "checks" badge.
 - **Three roots.** `<Email>` for the notice, `<Page>` for the migration guide, `<Canvas>` for the card. The card is
-  drawn to PNG by `renderImage()` in a Next.js route handler (`src/app/api/render/route.ts`).
+  drawn to PNG by `renderImage()` in a Next.js browser (`src/lib/render-route.ts`, so the site runs on Cloudflare with no render server).
 - **One field, four sends.** `stage` (announce / reminder / final / retired) changes the subject, the tag, the lead
   and the "time left", so the same notice gives the whole email sequence.
 - **Rules over the result.** Email and page require lint's `contrast`, `link-text` and `lang`. The card requires
@@ -86,7 +88,7 @@ Without the app:
 npm run check          # check the three templates with their example
 npm run notices        # notices/larkpay.json → out/notices/ (email .html/.txt, page .html, card .png)
 npm run preview:email  # out/clients/…: the email in Outlook, Gmail, Apple Mail
-npm run build && npm start
+npm run build && npx wrangler dev   # the static site, served the way Cloudflare does
 ```
 
 ## Use it for your own API
@@ -107,7 +109,7 @@ templates/page.tsx            Page template (migration guide)
 templates/card.tsx            Canvas template (1200 × 630)
 src/app/page.tsx              landing page
 src/components/Studio.tsx     the studio
-src/app/api/render/route.ts   renders a notice with the templates: render() and renderImage()
+src/lib/render-route.ts       renders a notice with the templates: render() and renderImage()
 src/lib/spec.ts               reads OpenAPI 3 / Swagger 2, JSON or YAML
 notices/                      the sample notice and its values files (CLI)
 public/samples/               the Larkpay sample spec
